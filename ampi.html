@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ampi - Mi Persona Favorita ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #e63946;
+      --secondary: #ffb703;
+      --accent: #ff4d6d;
+      --bg-dark: rgba(15, 10, 18, 0.88);
+      --card-bg: rgba(255, 255, 255, 0.12);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --text-gold: #ffe6a7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      background-color: #0d080e;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo dinámico */
+    .bg-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 1.5s ease-in-out;
+      filter: blur(12px) brightness(0.35);
+      transform: scale(1.08);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, rgba(230, 57, 70, 0.18) 0%, rgba(10, 5, 12, 0.92) 100%);
+      z-index: -1;
+    }
+
+    /* Partículas de corazones */
+    .heart-particle {
+      position: fixed;
+      pointer-events: none;
+      color: var(--accent);
+      animation: floatUp 4s linear forwards;
+      z-index: 999;
+      font-size: 1.2rem;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.4) rotate(360deg); opacity: 0; }
+    }
+
+    /* Layout principal */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 15px 120px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 10px 20px;
+    }
+
+    h1.title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 4.8rem;
+      color: #ffb3c1;
+      text-shadow: 0 0 20px rgba(255, 77, 109, 0.6), 0 0 40px rgba(230, 57, 70, 0.4);
+      margin-bottom: 5px;
+    }
+
+    p.subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--text-gold);
+      letter-spacing: 1px;
+    }
+
+    /* Marco polaroid principal */
+    .hero-polaroid {
+      background: #fff;
+      padding: 15px 15px 50px 15px;
+      border-radius: 4px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+      transform: rotate(-2deg);
+      max-width: 320px;
+      margin: 30px auto;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .hero-polaroid:hover {
+      transform: rotate(0deg) scale(1.03);
+    }
+
+    .hero-img-container {
+      width: 100%;
+      height: 320px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 2px;
+    }
+
+    .hero-caption {
+      color: #2b2b2b;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    /* Contador */
+    .timer-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      margin: 35px 0;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .timer-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ffb3c1;
+      margin-bottom: 15px;
+    }
+
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .timer-box {
+      background: rgba(0,0,0,0.35);
+      padding: 12px 5px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .timer-box .number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .timer-box .label {
+      font-size: 0.75rem;
+      color: #ddd;
+    }
+
+    /* Secciones */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      text-align: center;
+      margin: 60px 0 25px;
+      color: #ffb3c1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Galería de Fotos Polaroid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+    }
+
+    .polaroid-card {
+      background: #fff;
+      padding: 12px 12px 35px 12px;
+      border-radius: 4px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .polaroid-card:nth-child(even) { transform: rotate(2deg); }
+    .polaroid-card:nth-child(odd) { transform: rotate(-2deg); }
+
+    .polaroid-card:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+      z-index: 10;
+    }
+
+    .polaroid-img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    .polaroid-text {
+      color: #333;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* Botón Eliminar Foto */
+    .delete-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(230, 57, 70, 0.9);
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      transition: transform 0.2s, background 0.2s;
+      z-index: 15;
+    }
+
+    .delete-btn:hover {
+      background: #d62828;
+      transform: scale(1.15);
+    }
+
+    /* Subir / Añadir fotos extras */
+    .uploader-area {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px dashed var(--glass-border);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .upload-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Razones Te Amo (Tarjetas) */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .reason-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      padding: 22px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .reason-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.18);
+      border-color: #ffb3c1;
+    }
+
+    .reason-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .reason-card h3 {
+      color: #ffb3c1;
+      margin-bottom: 8px;
+    }
+
+    .reason-card p {
+      font-size: 0.95rem;
+      color: #eee;
+      line-height: 1.4;
+    }
+
+    /* Cartitas de Amor Desplegables */
+    .letters-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .letter-item {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .letter-header {
+      padding: 18px 25px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: #ffb3c1;
+      font-size: 1.1rem;
+    }
+
+    .letter-content {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 25px;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      color: #eee;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .letter-item.active .letter-content {
+      max-height: 300px;
+      padding: 0 25px 20px 25px;
+    }
+
+    /* Reproductor flotante */
+    .music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(20, 10, 25, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      padding: 12px 20px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      z-index: 1000;
+    }
+
+    .music-btn {
+      background: var(--accent);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    /* Visor de fotos Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.92);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-slideshow" id="bgSlide"></div>
+  <div class="overlay"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="title">Ampi</h1>
+      <p class="subtitle">"Mi lugar favorito en el mundo es a tu lado"</p>
+    </header>
+
+    <!-- Foto Destacada Principal -->
+    <div class="hero-polaroid" onclick="nextHeroPhoto()">
+      <div class="hero-img-container" id="heroImg"></div>
+      <div class="hero-caption" id="heroCaption">Ampi & Yo ❤️</div>
+    </div>
+
+    <!-- Contador de Tiempo -->
+    <div class="timer-card">
+      <div class="timer-title">Juntos desde el 23 de Agosto de 2026 ✨</div>
+      <div class="timer-grid">
+        <div class="timer-box"><div class="number" id="days">00</div><div class="label">Días</div></div>
+        <div class="timer-box"><div class="number" id="hours">00</div><div class="label">Horas</div></div>
+        <div class="timer-box"><div class="number" id="minutes">00</div><div class="label">Mins</div></div>
+        <div class="timer-box"><div class="number" id="seconds">00</div><div class="label">Segs</div></div>
+      </div>
+    </div>
+
+    <!-- Galería Polaroid -->
+    <h2 class="section-title"><span>📸</span> Nuestros Momentos</h2>
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <div class="uploader-area">
+      <p style="margin-bottom: 10px; font-size: 0.9rem; color: #ccc;">¿Querés agregar más fotos a la app?</p>
+      <input type="file" id="imageInput" multiple accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+      <button class="upload-btn" onclick="document.getElementById('imageInput').click()">+ Añadir Fotos Nuevas ❤️</button>
+    </div>
+
+    <!-- Sección Razones Por Las Que Te Amo -->
+    <h2 class="section-title"><span>💖</span> Razones Por Las Que Te Amo</h2>
+    <div class="reasons-grid">
+      <div class="reason-card">
+        <div class="reason-icon">✨</div>
+        <h3>Tu Hermosa Sonrisa</h3>
+        <p>Tiene la magia de iluminar mi día al instante y hacerme olvidar cualquier preocupación.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">👩‍❤️‍👨</div>
+        <h3>Tu Incondicional Compañía</h3>
+        <p>Estar con vos hace que los momentos más simples se conviertan en recuerdos inolvidables.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">🌹</div>
+        <h3>Tu Forma de Mirarme</h3>
+        <p>Esa dulzura única que tenés y la paz que me transmitís cada vez que nos miramos a los ojos.</p>
+      </div>
+      <div class="reason-card">
+        <div class="reason-icon">🔒</div>
+        <h3>Nuestra Cómplicidad</h3>
+        <p>Por nuestras risas secretas, nuestros abrazos apretados y lo lindo que la pasamos siempre juntos.</p>
+      </div>
+    </div>
+
+    <!-- Cartitas Secretas Desplegables -->
+    <h2 class="section-title"><span>💌</span> Cartitas Para Vos</h2>
+    <div class="letters-container">
+      <div class="letter-item">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <span>✉️ Para leer cuando me extrañes</span>
+          <span>▼</span>
+        </div>
+        <div class="letter-content">
+          Recordá siempre que no importa la distancia ni la hora, estoy pensando en vos. Cada segundo a tu lado me confirma lo afortunado que soy de tenerte en mi vida.
+        </div>
+      </div>
+
+      <div class="letter-item">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <span>✉️ Para cuando tengas un día difícil</span>
+          <span>▼</span>
+        </div>
+        <div class="letter-content">
+          Respirá hondo, sos una persona increíble, súper fuerte y capaz de todo. No te olvides de que tenés a alguien acá que te apoya y te ama incondicionalmente.
+        </div>
+      </div>
+
+      <div class="letter-item">
+        <div class="letter-header" onclick="toggleLetter(this)">
+          <span>✉️ Lo que siento por vos</span>
+          <span>▼</span>
+        </div>
+        <div class="letter-content">
+          Gracias por aparecer en mi vida y llenarla de felicidad, risas y momentos hermosos. Sos lo más lindo que me pasó y me encanta construir esto con vos día a día.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Reproductor Flotante -->
+  <div class="music-player">
+    <button class="music-btn" id="playBtn" onclick="toggleMusic()">🎵</button>
+    <span style="font-size:0.85rem;" id="musicText">Reproducir Canción</span>
+  </div>
+
+  <!-- Modal para ver fotos grandes -->
+  <div class="modal" id="photoModal" onclick="closeModal()">
+    <img id="modalImg" src="" alt="Foto en grande">
+  </div>
+
+  <audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"></audio>
+
+  <script>
+    // Nombres por defecto
+    const defaultPhotos = [
+      { src: "IMG-20260906-WA0026_3.jpg", caption: "Ampi hermosa ✨" },
+      { src: "IMG-20260902-WA0041_3.jpg", caption: "Juntos en el parque 🌳❤️" },
+      { src: "IMG-20260917-WA0016_3.jpg", caption: "Un beso de los nuestros 💋" },
+      { src: "IMG-20260919-WA0059_3.jpg", caption: "Abrazados siempre 🥰" }
+    ];
+
+    const startDate = new Date("2026-08-23T00:00:00");
+    let photosList = [];
+    let currentHeroIndex = 0;
+
+    window.onload = function() {
+      const saved = localStorage.getItem('ampi_custom_photos');
+      if (saved) {
+        photosList = JSON.parse(saved);
+      } else {
+        photosList = [...defaultPhotos];
+      }
+      renderGallery();
+      updateHeroAndBg();
+      startTimer();
+      setInterval(nextHeroPhoto, 5000);
+    };
+
+    function saveToStorage() {
+      localStorage.setItem('ampi_custom_photos', JSON.stringify(photosList));
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = '';
+
+      if (photosList.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #aaa;">No hay fotos agregadas. ¡Haz clic en el botón de abajo para subir algunas! ❤️</p>';
+        return;
+      }
+
+      photosList.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'polaroid-card';
+
+        card.innerHTML = `
+          <button class="delete-btn" title="Eliminar foto" onclick="deletePhoto(event, ${idx})">🗑️</button>
+          <img class="polaroid-img" src="${item.src}" alt="Recuerdo Ampi" onclick="openModal('${item.src}')">
+          <div class="polaroid-text" onclick="openModal('${item.src}')">${item.caption}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function deletePhoto(event, index) {
+      event.stopPropagation(); // Evita abrir el modal al presionar eliminar
+      if (confirm("¿Quieres borrar esta foto de la galería?")) {
+        photosList.splice(index, 1);
+        saveToStorage();
+        renderGallery();
+        updateHeroAndBg();
+      }
+    }
+
+    function handleImageUpload(e) {
+      const files = Array.from(e.target.files);
+
+      files.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          photosList.push({
+            src: evt.target.result,
+            caption: `Nuestra foto ❤️`
+          });
+          saveToStorage();
+          renderGallery();
+          updateHeroAndBg();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function updateHeroAndBg() {
+      const heroContainer = document.getElementById('heroImg');
+      const bgSlide = document.getElementById('bgSlide');
+      const heroCaption = document.getElementById('heroCaption');
+
+      if (photosList.length > 0) {
+        const currentItem = photosList[currentHeroIndex % photosList.length];
+        heroContainer.style.backgroundImage = `url('${currentItem.src}')`;
+        heroCaption.innerText = currentItem.caption;
+        bgSlide.style.backgroundImage = `url('${currentItem.src}')`;
+      } else {
+        heroContainer.style.backgroundImage = 'none';
+        heroCaption.innerText = 'Agrega una foto ❤️';
+        bgSlide.style.backgroundImage = 'none';
+      }
+    }
+
+    function nextHeroPhoto() {
+      if (photosList.length > 0) {
+        currentHeroIndex = (currentHeroIndex + 1) % photosList.length;
+        updateHeroAndBg();
+      }
+    }
+
+    function startTimer() {
+      setInterval(() => {
+        const now = new Date();
+        const diff = now - startDate;
+
+        if (diff < 0) {
+          document.getElementById('days').innerText = "00";
+          document.getElementById('hours').innerText = "00";
+          document.getElementById('minutes').innerText = "00";
+          document.getElementById('seconds').innerText = "00";
+          return;
+        }
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('days').innerText = String(d).padStart(2, '0');
+        document.getElementById('hours').innerText = String(h).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+      }, 1000);
+    }
+
+    function toggleLetter(header) {
+      const item = header.parentElement;
+      item.classList.toggle('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      if(e.target.tagName === 'BUTTON' || e.target.classList.contains('letter-header')) return;
+      const heart = document.createElement('div');
+      heart.className = 'heart-particle';
+      heart.innerHTML = '❤️';
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    });
+
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      const btn = document.getElementById('playBtn');
+      const txt = document.getElementById('musicText');
+      if (audio.paused) {
+        audio.play();
+        btn.innerHTML = '⏸️';
+        txt.innerText = 'Sonando ❤️';
+      } else {
+        audio.pause();
+        btn.innerHTML = '🎵';
+        txt.innerText = 'Reproducir Canción';
+      }
+    }
+
+    function openModal(src) {
+      document.getElementById('modalImg').src = src;
+      document.getElementById('photoModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('photoModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
